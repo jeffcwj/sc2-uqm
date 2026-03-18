@@ -509,7 +509,11 @@ target_compile_definitions(uqm PRIVATE
 
 # --- 编译选项 ---
 # NDK clang 默认开启 -Werror=format-security，但 uqm 的 log_add 传变量作为格式字符串
-target_compile_options(uqm PRIVATE -Wno-error=format-security)
+# NDK clang 默认开启 -Werror=implicit-function-declaration，但 uqm 旧 C 代码有大量隐式函数声明
+target_compile_options(uqm PRIVATE
+    -Wno-error=format-security
+    -Wno-error=implicit-function-declaration
+)
 
 if(UQM_USE_ZIP_IO)
     target_compile_definitions(uqm PRIVATE USE_ZIP_IO)
