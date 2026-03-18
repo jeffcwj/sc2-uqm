@@ -503,7 +503,13 @@ target_compile_definitions(uqm PRIVATE
     # I/O 格式
     HAVE_JOYSTICK
     # 不定义 HAVE_GETOPT_LONG — 使用内置 getopt 源文件
+    # battlecontrols.c 等文件直接使用 NUM_PLAYERS 但不 include init.h
+    NUM_PLAYERS=2
 )
+
+# --- 编译选项 ---
+# NDK clang 默认开启 -Werror=format-security，但 uqm 的 log_add 传变量作为格式字符串
+target_compile_options(uqm PRIVATE -Wno-error=format-security)
 
 if(UQM_USE_ZIP_IO)
     target_compile_definitions(uqm PRIVATE USE_ZIP_IO)
